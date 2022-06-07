@@ -1,0 +1,24 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+      - stage
+    paths:
+      - './**'
+      - '.github/**'
+
+jobs:
+  call-workflow-build-push:
+    uses: ./.github/workflows/build-push.yml
+    secrets:
+      access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  call-workflow-deploy-k8s:
+    needs: call-workflow-build-push
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

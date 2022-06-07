@@ -1,0 +1,26 @@
+name: 'Setenvs for pipeline'
+description: 'Setting env for jobs'
+runs:
+  using: "composite"
+  steps:
+    - name: Set envs for dev
+      if: github.ref == 'refs/heads/dev'
+      run: |
+          echo "stack_env=dev" >> $GITHUB_ENV
+          echo "repo_name=sparx-dev-ecr-d3fdc2b" >> $GITHUB_ENV
+          echo "AWS_REGION=us-east-2" >> $GITHUB_ENV
+          echo "cluster_name=sparx-dev-eks" >> $GITHUB_ENV
+          echo "app_namespace=sparx-dev-app" >> $GITHUB_ENV
+      shell: bash
+#    - name: Set envs for stage
+#      if: github.ref == 'refs/heads/stage'
+#      run: |
+#          echo "stack_env=stage" >> $GITHUB_ENV
+#          echo "repo_name=sparx-dev-ecr-ea2fe90" >> $GITHUB_ENV
+#      shell: bash
+#    - name: Set envs for prod
+#      if: github.ref == 'refs/heads/prod'
+#      run: |
+#          echo "stack_env=prod" >> $GITHUB_ENV
+#          echo "repo_name=sparx-dev-ecr-ea2fe90" >> $GITHUB_ENV
+#      shell: bash      
