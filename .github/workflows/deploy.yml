@@ -5,6 +5,7 @@ on:
     inputs:   
       stack:
         required: true
+        type: string
     secrets:
       access_key:
         required: true
