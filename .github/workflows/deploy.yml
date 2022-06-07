@@ -3,7 +3,7 @@ name: Build and push Workflow
 on:
   workflow_call:
     inputs:   
-      stack:
+      aws_region:
         required: true
         type: string
     secrets:
