@@ -38,4 +38,10 @@ jobs:
         echo $REGION
         echo $CLUSTER
 
-     
+    - name: Extract branch name
+      if: github.event_name != 'pull_request'
+      shell: bash
+      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"     
+
+    - name: Get branch name
+       run: echo 'The branch name is' $BRANCH_NAME      
