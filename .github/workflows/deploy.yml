@@ -2,6 +2,11 @@ name: Build and push Workflow
 
 on:
   workflow_call:
+    inputs:
+      refs:
+        required: true      
+      stack:
+        required: true
     secrets:
       access_key:
         required: true
@@ -44,7 +49,7 @@ jobs:
       run: echo ${GITHUB_REF#refs/heads/}    
 
     - name: Get branch name
-      run: echo 'The branch name is'  $ENV
+      run: echo 'The branch name is'  ${{ inputs.refs }}
 
-#    - name: Get branch name
-#      run: echo 'The branch name is'  ${{ inputs.stack }}
+    - name: Get branch name
+      run: echo 'The branch name is'  ${{ inputs.stack }}
