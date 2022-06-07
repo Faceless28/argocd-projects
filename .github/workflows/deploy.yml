@@ -44,4 +44,4 @@ jobs:
       run: echo ${GITHUB_REF#refs/heads/}    
 
     - name: Get branch name
-      run: echo 'The branch name is' $BRANCH_NAME      
+      run: echo 'The branch name is' $stack      
