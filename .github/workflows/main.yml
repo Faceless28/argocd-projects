@@ -11,13 +11,19 @@ on:
       - '.github/**'
 
 jobs:
-  call-workflow-build-push:
-    uses: ./.github/workflows/build-push.yml
-    secrets:
-      access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  envs-declare:
+    - name: Set branch-based environment variables
+    uses: iamtheyammer/branch-env-vars@v1.1.3
+    with:
+      bevOverwrite: true
+      AWS_REGION: |
+        main:us-east-2
+        dev:us-west-2
+      CLUSTER: |
+        main:eks-prod-boris
+        dev:eks-dev-boris
   call-workflow-deploy-k8s:
-    needs: call-workflow-build-push
+    needs: envs-declare
     uses: ./.github/workflows/deploy.yml
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
