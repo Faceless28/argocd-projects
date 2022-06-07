@@ -48,4 +48,4 @@ jobs:
       run: echo ${GITHUB_REF#refs/heads/}    
 
     - name: Get branch name
-      run: echo 'The branch name is'  ${{ inputs.stack }}
+      run: echo 'The branch name is'  ${{ inputs.aws_region }}
