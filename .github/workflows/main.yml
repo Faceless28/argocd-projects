@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       refs: GITHUB_REF#refs/heads/
-      stack: test  
+      stack: 'test'  
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
