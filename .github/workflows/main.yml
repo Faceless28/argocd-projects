@@ -13,7 +13,7 @@ on:
 jobs:
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
-      env:
+    with:
         stack: ${GITHUB_REF#refs/heads/}  
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
