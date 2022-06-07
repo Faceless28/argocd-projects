@@ -14,8 +14,8 @@ jobs:
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
     with:
-        stack: GITHUB_REF#refs/heads/
-        ENV: test  
+      stack: GITHUB_REF#refs/heads/
+      ENV: test  
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
