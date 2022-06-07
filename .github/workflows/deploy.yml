@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:   
       stack:
-        type: string
+        required: true
     secrets:
       access_key:
         required: true
