@@ -11,7 +11,7 @@ on:
       - '.github/**'
 
 jobs:
-  build:    
+  env:    
     steps:
     - name: Set branch-based environment variables
       uses: iamtheyammer/branch-env-vars@v1.1.3
@@ -23,6 +23,7 @@ jobs:
           stage:stage  
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
+    needs: env
     with:
       aws_region: ${{ github.ref_name }}
       aws_test: ${{ env.STACK }}
