@@ -3,7 +3,7 @@ name: Build and push Workflow
 on:
   workflow_call:
     inputs:   
-      aws_region:
+      aws_test:
         required: true
         type: string
     secrets:
@@ -48,4 +48,4 @@ jobs:
       run: echo ${GITHUB_REF#refs/heads/}    
 
     - name: Get branch name
-      run: echo 'The branch name is'  ${{ inputs.aws_region }}
+      run: echo 'The branch name is'  ${{ inputs.aws_test }}
