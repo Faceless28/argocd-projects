@@ -30,3 +30,4 @@ jobs:
       run: |
         echo $REGION
         echo $CLUSTER
+        echo $inputs.aws_region
