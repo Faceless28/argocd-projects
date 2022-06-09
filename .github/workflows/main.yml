@@ -32,7 +32,7 @@ jobs:
 
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
-    needs: [call-workflow-build, [test]
+    needs: [call-workflow-build, test]
     with:
       out_test1: ${{needs.test.outputs.STACK}}
       out_test2: ${{needs.call-workflow-build.outputs.STACK}}
