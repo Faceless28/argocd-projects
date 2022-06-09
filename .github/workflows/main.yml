@@ -15,18 +15,24 @@ jobs:
     name: Setup Dynamic Environment Variables
     runs-on: ubuntu-latest
     outputs:
-      build-and-verify: ${{ steps.set-output-defaults.outputs.environment }}
+      STACK: ${{ steps.set-output-defaults.outputs.environment }}
     steps:
       - name: set outputs with default values
         id: set-output-defaults
         run: |
-          echo "::set-output name=environment::prod }}"
+          if ${GITHUB_REF#refs/heads/} == 'main'; then
+            echo "::set-output name=environment::prod }}"
+          elif <expression>; then
+            echo "::set-output name=environment::prod }}"
+          else
+            echo "::set-output name=environment::prod }}"
+          fi
    
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
     needs: EnvSetup
     with:
-      aws_test: ${{needs.EnvSetup.outputs.build-and-verify}}
+      aws_test: ${{needs.EnvSetup.outputs.STACK}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
