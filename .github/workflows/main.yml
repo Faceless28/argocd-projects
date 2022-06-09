@@ -10,7 +10,20 @@ on:
       - './**'
       - '.github/**'
 
-jobs:                
+jobs:
+  test:    
+    name: Build Image
+    runs-on: ubuntu-latest
+    outputs:
+      STACK: ${{ steps.set-output-defaults.outputs.stack }}
+    steps:
+      - name: set outputs with default values
+        id: set-output-defaults
+        run: |
+          if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
+              echo "::set-output name=stack::prod }}" 
+          fi 
+                            
   call-workflow-build:
     uses: ./.github/workflows/build-push.yml
     secrets:
@@ -21,7 +34,8 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs: call-workflow-build
     with:
-      aws_test: ${{needs.set-output-defaults.outputs.STACK}}
+      out_test1: ${{needs.test.outputs.STACK}}
+      out_test2: ${{needs.call-workflow-build.outputs.STACK}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
