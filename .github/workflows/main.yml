@@ -11,29 +11,29 @@ on:
       - '.github/**'
 
 jobs:
-  build:    
+  init:    
     name: Build Image
     runs-on: ubuntu-latest
     outputs:
-      output: ${{ steps.set-variable.outputs.STACK }}
+      output: ${{ steps.setvars.outputs.STACK }}
 
     steps:
-    - name: Set branch-based environment variables
-      uses: iamtheyammer/branch-env-vars@v1.1.3
-      id: set-variable
-      with:
-        bevOverwrite: true
-        STACK: |
-          main:prod
-          dev:dev
-          stage:stage
+    - name: Set variables
+      id: setvars
+      run: |
+        if [[ "${{github.ref}}" == "refs/heads/main" ]]; then
+          echo "::set-output name=STACK::prod"
+        fi
+      if [[ "${{github.ref}}" == "refs/heads/dev" ]]; then
+          echo "::set-output name=STACK::dev"
+        fi          
    
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
     needs: build
     with:
       aws_region: ${{ github.ref_name }}
-      aws_test: ${{ needs.build.outputs.STACK }}
+      aws_test: ${{needs.init.outputs.STACK}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
