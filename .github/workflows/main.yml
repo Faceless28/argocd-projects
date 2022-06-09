@@ -26,7 +26,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs: EnvSetup
     with:
-      build-and-verify: ${{needs.EnvSetup.outputs.build-and-verify}}
+      aws_test: ${{needs.EnvSetup.outputs.build-and-verify}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
