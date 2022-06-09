@@ -11,8 +11,14 @@ on:
       - '.github/**'
 
 jobs:
-  env:    
+  build:    
+    name: Build Image
+    runs-on: ubuntu-latest
+
     steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
     - name: Set branch-based environment variables
       uses: iamtheyammer/branch-env-vars@v1.1.3
       with:
@@ -20,10 +26,11 @@ jobs:
         STACK: |
           main:prod
           dev:dev
-          stage:stage  
+          stage:stage   
+
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
-    needs: env
+    needs: build
     with:
       aws_region: ${{ github.ref_name }}
       aws_test: ${{ env.STACK }}
