@@ -10,31 +10,18 @@ on:
       - './**'
       - '.github/**'
 
-jobs:
-  EnvSetup:
-    name: Setup Dynamic Environment Variables
-    runs-on: ubuntu-latest
-    outputs:
-      STACK: ${{ steps.set-output-defaults.outputs.environment }}
-    steps:
-      - name: set outputs with default values
-        id: set-output-defaults
-        run: |
-          if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
-              echo "::set-output name=environment::prod }}" 
-          fi
-          elif [ "${GITHUB_REF#refs/heads/}" == "dev" ]; then 
-              echo "::set-output name=environment::dev }}" 
-          fi
-          else [ "${GITHUB_REF#refs/heads/}" == "stage" ]; then 
-              echo "::set-output name=environment::stage }}" 
-          fi                    
-   
+jobs:                
+  call-workflow-build:
+    uses: ./.github/workflows/build-push.yml
+    secrets:
+      access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
-    needs: EnvSetup
+    needs: call-workflow-build
     with:
-      aws_test: ${{needs.EnvSetup.outputs.STACK}}
+      aws_test: ${{needs.call-workflow-build.outputs.STACK}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
