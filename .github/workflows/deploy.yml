@@ -3,12 +3,9 @@ name: Build and push Workflow
 on:
   workflow_call:
     inputs:   
-      out_test1:
+      stack:
         required: true
-        type: string
-      out_test2:
-        required: true
-        type: string        
+        type: string      
     secrets:
       access_key:
         required: true
@@ -24,17 +21,6 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set branch-based environment variables
-      uses: iamtheyammer/branch-env-vars@v1.1.3
-      with:
-        bevOverwrite: true
-        AWS_REGION: |
-          main:us-east-2
-          dev:us-west-2
-        CLUSTER: |
-          main:eks-prod-boris
-          dev:eks-dev-boris
-
     - name: Deploy
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -44,11 +30,3 @@ jobs:
       run: |
         echo $REGION
         echo $CLUSTER
-
-    - name: Extract branch name
-      if: github.event_name != 'pull_request'
-      shell: bash
-      run: echo ${GITHUB_REF#refs/heads/}    
-
-    - name: Get branch name
-      run: echo 'The branch name is'  ${{ inputs.out_test1 }}  ${{ inputs.out_test2 }}

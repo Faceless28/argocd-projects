@@ -7,30 +7,25 @@ on:
         required: true
       secret_key:
         required: true
+    outputs:
+      stack:
+        description: "The stack name"
+        value: ${{ jobs.build.outputs.stack }}
 
 jobs:
   build:    
     name: Build Image
     runs-on: ubuntu-latest
     outputs:
-      STACK2: ${{ steps.set-output-defaults.outputs.stack }}
-
+      stack: ${{ steps.out_stack.outputs.stack }}
     steps:
-      - name: set outputs with default values
-        id: set-output-defaults
-        run: |
-          if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
-              echo "::set-output name=stack::prod }}" 
-          fi   
-      - name: set outputs with default values
-        id: set-output-defaults2
-        run: |
-          if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
-              echo "::set-output name=environment::prod }}" 
-          elif [ "${GITHUB_REF#refs/heads/}" == "dev" ]; then 
-              echo "::set-output name=environment::dev }}" 
-          else [ "${GITHUB_REF#refs/heads/}" == "stage" ]
-              echo "::set-output name=environment::stage }}" 
-          fi  
-
- 
+      - name: Set branch-based environment variables
+        uses: iamtheyammer/branch-env-vars@v1.1.3
+        with:
+          bevOverwrite: true
+          STACK: |
+            main:prod
+            dev:dev
+            stage:stage
+      - id: out_stack
+        run: echo "::set-output name=stack::$STACK"
