@@ -10,27 +10,16 @@ on:
       - './**'
       - '.github/**'
 
+env:
+  if: github.ref_name == 'main'
+    STACK: prod
+  if: github.event.action == 'A'
+    STACK: ${{github.ref_name}}
+    
+
 jobs:
-  build:    
-    name: Build Image
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-
-    - name: Set branch-based environment variables
-      uses: iamtheyammer/branch-env-vars@v1.1.3
-      with:
-        bevOverwrite: true
-        STACK: |
-          main:prod
-          dev:dev
-          stage:stage   
-
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
-    needs: build
     with:
       aws_region: ${{ github.ref_name }}
       aws_test: ${{ env.STACK }}
