@@ -13,7 +13,7 @@ jobs:
     name: Build Image
     runs-on: ubuntu-latest
     outputs:
-      STACK: ${{ steps.set-output-defaults.outputs.stack }}
+      STACK2: ${{ steps.set-output-defaults.outputs.stack }}
 
     steps:
       - name: set outputs with default values
