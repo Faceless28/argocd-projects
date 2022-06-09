@@ -14,10 +14,32 @@ jobs:
   build:    
     name: Build Image
     runs-on: ubuntu-latest
+    outputs:
+      output: ${{ steps.set-variable.outputs.STACK }}
 
     steps:
+    - name: Set envs for dev
+      if: github.ref == 'refs/heads/dev'
+      id: out
+      run: |
+          echo "::set-output name=test::hello"
+      shell: bash
+    - name: Set envs for stage
+      if: github.ref == 'refs/heads/stage'
+      id: out
+      run: |
+          echo "::set-output name=test::hello"
+      shell: bash
+    - name: Set envs for prod
+      if: github.ref == 'refs/heads/main'
+      id: out      
+      run: |
+          echo "::set-output name=test::world"
+      shell: bash 
+
     - name: Set branch-based environment variables
       uses: iamtheyammer/branch-env-vars@v1.1.3
+      id: set-variable
       with:
         bevOverwrite: true
         STACK: |
@@ -30,7 +52,7 @@ jobs:
     needs: build
     with:
       aws_region: ${{ github.ref_name }}
-      aws_test: ${{ STACK }}
+      aws_test: ${{ needs.build.outputs.STACK }}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
