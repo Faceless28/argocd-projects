@@ -21,14 +21,11 @@ jobs:
         id: set-output-defaults
         run: |
           if ${GITHUB_REF#refs/heads/} == 'main'; then
-            echo "::set-output name=environment::prod }}"
-          fi  
+            echo "::set-output name=environment::prod }}" ; fi
           if ${GITHUB_REF#refs/heads/} == 'dev'; then
-            echo "::set-output name=environment::dev }}"
-          fi 
+            echo "::set-output name=environment::dev }}" ; fi 
           if ${GITHUB_REF#refs/heads/} == 'stage'; then
-            echo "::set-output name=environment::stage }}"
-          fi           
+            echo "::set-output name=environment::stage }}" ; fi           
    
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
