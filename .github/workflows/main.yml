@@ -13,6 +13,8 @@ on:
 jobs:                
   call-workflow-build:
     uses: ./.github/workflows/build-push.yml
+    outputs:
+      STACK: ${{ steps.set-output-defaults.outputs.stack }}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
