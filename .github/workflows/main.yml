@@ -23,7 +23,12 @@ jobs:
           if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
               echo "::set-output name=environment::prod }}" 
           fi
-          
+          elif [ "${GITHUB_REF#refs/heads/}" == "dev" ]; then 
+              echo "::set-output name=environment::dev }}" 
+          fi
+          else [ "${GITHUB_REF#refs/heads/}" == "stage" ]; then 
+              echo "::set-output name=environment::stage }}" 
+          fi                    
    
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
