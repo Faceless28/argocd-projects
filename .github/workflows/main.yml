@@ -22,7 +22,7 @@ jobs:
       id: setvars
       run: |
         if [[ "${{github.ref}}" == "refs/heads/main" ]]; then
-          echo "::set-output name=test::prod"
+          echo "STACK=my-project-stg" >> "$GITHUB_ENV"
         fi
 
         if [[ "${{github.ref}}" == "refs/heads/dev" ]]; then
@@ -34,7 +34,7 @@ jobs:
     needs: init
     with:
       aws_region: ${{ github.ref_name }}
-      aws_test: ${{ needs.init.outputs.test }}
+      aws_test: ${{ env.STACK }}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
