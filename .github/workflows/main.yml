@@ -15,13 +15,12 @@ jobs:
     name: Setup Dynamic Environment Variables
     runs-on: ubuntu-latest
     outputs:
-      build-and-verify: ${{ steps.set-output-defaults.outputs.build-and-verify }}
+      build-and-verify: ${{ steps.set-output-defaults.outputs.environment }}
     steps:
       - name: set outputs with default values
         id: set-output-defaults
         run: |
-          # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
-          echo "::set-output name=build-and-verify::prod }}"
+          echo "::set-output name=environment::prod }}"
    
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
