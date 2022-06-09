@@ -24,7 +24,7 @@ jobs:
         if [[ "${{github.ref}}" == "refs/heads/main" ]]; then
           echo "::set-output name=STACK::prod"
         fi
-      if [[ "${{github.ref}}" == "refs/heads/dev" ]]; then
+        if [[ "${{github.ref}}" == "refs/heads/dev" ]]; then
           echo "::set-output name=STACK::dev"
         fi          
    
