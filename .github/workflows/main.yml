@@ -25,7 +25,7 @@ jobs:
    
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
-    needs: init
+    needs: EnvSetup
     with:
       aws_region: ${{ github.ref_name }}
       aws_test: ${{needs.EnvSetup.outputs.build-and-verify}}
