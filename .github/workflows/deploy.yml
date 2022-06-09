@@ -23,11 +23,6 @@ jobs:
 
     - name: Deploy
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ env.repo_name }}
-        CLUSTER:  ${{ env.CLUSTER }}
-        REGION:  ${{ env.AWS_REGION }}
+        STACK: ${{ inputs.aws_region }}
       run: |
-        echo $REGION
-        echo $CLUSTER
-        echo $inputs.aws_region
+        echo $STACK
