@@ -34,7 +34,7 @@ jobs:
     needs: init
     with:
       aws_region: ${{ github.ref_name }}
-      aws_test: ${{ env.STACK }}
+      aws_test: ${{ STACK }}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
