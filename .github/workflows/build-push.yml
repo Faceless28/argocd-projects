@@ -27,7 +27,7 @@ jobs:
               echo "::set-output name=environment::prod }}" 
           elif [ "${GITHUB_REF#refs/heads/}" == "dev" ]; then 
               echo "::set-output name=environment::dev }}" 
-          else [ "${GITHUB_REF#refs/heads/}" == "stage" ]; then 
+          else [ "${GITHUB_REF#refs/heads/}" == "stage" ]
               echo "::set-output name=environment::stage }}" 
           fi  
 
