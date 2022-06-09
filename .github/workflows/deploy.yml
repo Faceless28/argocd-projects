@@ -23,6 +23,6 @@ jobs:
 
     - name: Deploy
       env:
-        STACK: ${{ inputs.aws_region }}
+        STACK: ${{ inputs.stack }}
       run: |
         echo $STACK
