@@ -11,30 +11,24 @@ on:
       - '.github/**'
 
 jobs:
-  init:    
-    name: Build Image
+  EnvSetup:
+    name: Setup Dynamic Environment Variables
     runs-on: ubuntu-latest
     outputs:
-      output: ${{ steps.setvars.outputs.STACK }}
-
+      build-and-verify: ${{ steps.set-output-defaults.outputs.build-and-verify }}
     steps:
-    - name: Set variables
-      id: setvars
-      run: |
-        if [[ "${{github.ref}}" == "refs/heads/main" ]]; then
-          echo "STACK=my-project-stg" >> "$GITHUB_ENV"
-        fi
-
-        if [[ "${{github.ref}}" == "refs/heads/dev" ]]; then
-          echo "::set-output name=test::dev"
-        fi          
+      - name: set outputs with default values
+        id: set-output-defaults
+        run: |
+          # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
+          echo "::set-output name=build-and-verify::prod }}"
    
   call-workflow-deploy-k8s:
     uses: ./.github/workflows/deploy.yml
     needs: init
     with:
       aws_region: ${{ github.ref_name }}
-      aws_test: ${{ STACK }}
+      aws_test: ${{needs.EnvSetup.outputs.build-and-verify}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
