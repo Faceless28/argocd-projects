@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs: call-workflow-build
     with:
-      out_test2: ${{needs.call-workflow-build.outputs.stack}}
+      stack: ${{needs.call-workflow-build.outputs.stack}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
