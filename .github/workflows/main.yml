@@ -13,8 +13,6 @@ on:
 jobs:                
   call-workflow-build:
     uses: ./.github/workflows/build-push.yml
-    outputs:
-      STACK: ${{ steps.set-output-defaults.outputs.stack }}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -23,7 +21,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs: call-workflow-build
     with:
-      aws_test: ${{needs.call-workflow-build.outputs.STACK}}
+      aws_test: ${{needs.set-output-defaults.outputs.STACK}}
     secrets:
       access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
