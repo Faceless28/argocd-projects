@@ -20,7 +20,7 @@ jobs:
       - name: set outputs with default values
         id: set-output-defaults
         run: |
-          if [ "${GITHUB_REF#refs/heads/}" == "main" ];; then 
+          if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
               echo "::set-output name=environment::prod }}" 
           fi
           
