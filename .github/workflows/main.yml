@@ -15,13 +15,13 @@ jobs:
     name: Build Image
     runs-on: ubuntu-latest
     outputs:
-      STACK: ${{ steps.set-output-defaults.outputs.stack }}
+      STACK: ${{ steps.set-output-defaults.outputs.test }}
     steps:
       - name: set outputs with default values
         id: set-output-defaults
         run: |
           if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
-              echo "::set-output name=stack::prod }}" 
+              echo "::set-output name=test::prod }}" 
           fi 
 
   call-workflow-build:
