@@ -13,15 +13,17 @@ jobs:
     name: Build Image
     runs-on: ubuntu-latest
     outputs:
-      STACK: ${{ steps.set-output-defaults.outputs.environment }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./
+      STACK: ${{ steps.set-output-defaults.outputs.stack }}
 
     steps:
       - name: set outputs with default values
         id: set-output-defaults
+        run: |
+          if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
+              echo "::set-output name=stack::prod }}" 
+          fi   
+      - name: set outputs with default values
+        id: set-output-defaults2
         run: |
           if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then 
               echo "::set-output name=environment::prod }}" 
