@@ -7,9 +7,8 @@ on:
       - main
       - stage
     paths:
-      - './**'
-      - '.github/**'
-
+      - '**'
+      
 jobs:
   call-workflow-build:
     uses: ./.github/workflows/build-push.yml
